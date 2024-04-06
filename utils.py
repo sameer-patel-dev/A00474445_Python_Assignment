@@ -54,43 +54,49 @@ def get_historical_data(coin_id, start_date, end_date, currency="cad"):
         return pd.DataFrame()
 
 
-@st.cache_data
+loaded_model = None
+
 def load_or_train_model():
-    model_path = Path("mnist_model.keras")
+    global loaded_model  # Indicate that we're using the global variable
 
-    if model_path.exists():
-        print("Loading model...")
-        return tf.keras.models.load_model(model_path)
-    
-    else:
-        print("Training model...")
-        mnist = tf.keras.datasets.mnist
-        (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
-        train_images, test_images = train_images / 255.0, test_images / 255.0
+    # Only proceed to load or train the model if it hasn't been loaded already
+    if loaded_model is None:
+        model_path = Path("mnist_model.keras")
 
-        train_images = train_images[..., tf.newaxis].astype("float32")
-        test_images = test_images[..., tf.newaxis].astype("float32")
+        if model_path.exists():
+            print("Loading model...")
+            loaded_model = tf.keras.models.load_model(model_path)
+        else:
+            print("Training model...")
+            mnist = tf.keras.datasets.mnist
+            (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+            train_images, test_images = train_images / 255.0, test_images / 255.0
 
-        model = models.Sequential([
-            layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),
-            layers.MaxPooling2D((2, 2)),
-            layers.Conv2D(64, (3, 3), activation='relu'),
-            layers.MaxPooling2D((2, 2)),
-            layers.Conv2D(64, (3, 3), activation='relu'),
-            layers.Flatten(),
-            layers.Dense(64, activation='relu'),
-            layers.Dense(10)
-        ])
+            train_images = train_images[..., tf.newaxis].astype("float32")
+            test_images = test_images[..., tf.newaxis].astype("float32")
 
-        model.compile(optimizer='adam',
-                      loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-                      metrics=['accuracy'])
+            model = models.Sequential([
+                layers.Conv2D(32, (3, 3), activation='relu', input_shape=(28, 28, 1)),
+                layers.MaxPooling2D((2, 2)),
+                layers.Conv2D(64, (3, 3), activation='relu'),
+                layers.MaxPooling2D((2, 2)),
+                layers.Conv2D(64, (3, 3), activation='relu'),
+                layers.Flatten(),
+                layers.Dense(64, activation='relu'),
+                layers.Dense(10)
+            ])
 
-        st.info("Model is Training. This is a one time activity. Model will be stored once this is done!")
-        model.fit(train_images, train_labels, epochs=1, validation_split=0.1)
+            model.compile(optimizer='adam',
+                          loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+                          metrics=['accuracy'])
 
-        model.save(model_path)
-        return model
+            st.info("Model is Training. This is a one-time activity. Model will be stored once this is done!")
+            model.fit(train_images, train_labels, epochs=1, validation_split=0.1)
+
+            model.save(model_path)
+            loaded_model = model
+
+    return loaded_model
 
 
 
