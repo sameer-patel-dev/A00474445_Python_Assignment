@@ -57,15 +57,15 @@ def get_historical_data(coin_id, start_date, end_date, currency="cad"):
 loaded_model = None
 
 def load_or_train_model():
-    global loaded_model  # Indicate that we're using the global variable
+    global loaded_model
 
-    # Only proceed to load or train the model if it hasn't been loaded already
     if loaded_model is None:
         model_path = Path("mnist_model.keras")
 
         if model_path.exists():
             print("Loading model...")
             loaded_model = tf.keras.models.load_model(model_path)
+
         else:
             print("Training model...")
             mnist = tf.keras.datasets.mnist
@@ -92,7 +92,6 @@ def load_or_train_model():
 
             st.info("Model is Training. This is a one-time activity. Model will be stored once this is done!")
             model.fit(train_images, train_labels, epochs=1, validation_split=0.1)
-
             model.save(model_path)
             loaded_model = model
 
