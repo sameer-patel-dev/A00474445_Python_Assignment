@@ -54,6 +54,7 @@ def get_historical_data(coin_id, start_date, end_date, currency="cad"):
         return pd.DataFrame()
 
 
+@st.cache_data
 def load_or_train_model():
     model_path = Path("mnist_model.keras")
 
