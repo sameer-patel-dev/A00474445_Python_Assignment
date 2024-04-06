@@ -8,6 +8,7 @@ import tensorflow as tf
 from tensorflow.keras import layers, models
 from PIL import Image, ImageOps
 from tensorflow.keras.preprocessing.image import img_to_array
+from pathlib import Path
 
 
 
@@ -54,8 +55,8 @@ def get_historical_data(coin_id, start_date, end_date, currency="cad"):
 
 
 
-def load_or_train_model(model_path='mnist_model'):
-    main_dir = Path("mnist_model/")
+def load_or_train_model():
+    model_path = Path("mnist_model")
 
     if os.path.exists(model_path):
         print("Loading model...")
