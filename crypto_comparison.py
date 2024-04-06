@@ -34,7 +34,7 @@ def show_page():
                     st.line_chart(df)
 
                 else:
-                    st.write("No data available for the selected coins or date range.")
+                    st.write("No data available for the selected coins or date range")
 
             else:
                 st.error("Ensure that both cryptocurrencies are not same")
@@ -43,10 +43,10 @@ def show_page():
             st.write("")
             st.write("")
             st.write("")
-            st.info("Ensure that both cryptocurrencies are selected and the start date is before the end date.")
+            st.info("Ensure that both cryptocurrencies are selected and the start date is before the end date")
     
     else:
-        st.error("Could not load the coins list.")
+        st.error("Could not load the coins list")
 
 
 if __name__ == "__main__":

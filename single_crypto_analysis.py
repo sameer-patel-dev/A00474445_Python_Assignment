@@ -29,11 +29,11 @@ def show_page():
 
                 df.index = df.index.strftime('%Y-%m-%d')
                 st.line_chart(df["price"])
-                st.write(f"The highest trading price was on {max_date} with a price of CAD {max_price}.")
-                st.write(f"The lowest trading price was on {min_date} with a price of CAD {min_price}.")
+                st.write(f"The highest trading price was on {max_date} with a price of CAD {max_price}")
+                st.write(f"The lowest trading price was on {min_date} with a price of CAD {min_price}")
     
     else:
-        st.error("Could not load the coins list.")
+        st.error("Could not load the coins list")
 
 
 if __name__ == "__main__":

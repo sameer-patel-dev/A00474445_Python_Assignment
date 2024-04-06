@@ -18,7 +18,7 @@ def getListofAllIDs(csv_path="CoinsListsData.csv"):
         print(f"Loading coins list from {csv_path}.")
         df = pd.read_csv(csv_path)
     else:
-        print("Fetching coins list from CoinGecko API.")
+        print("Fetching coins list from CoinGecko API")
         url = "https://api.coingecko.com/api/v3/coins/list"
         response = requests.get(url)
         data = response.json()
@@ -91,7 +91,7 @@ def load_or_train_model():
                           metrics=['accuracy'])
 
             st.info("Model is Training. This is a one-time activity. Model will be stored once this is done!")
-            model.fit(train_images, train_labels, epochs=1, validation_split=0.1)
+            model.fit(train_images, train_labels, epochs=10, validation_split=0.1)
             model.save(model_path)
             loaded_model = model
 
