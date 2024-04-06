@@ -1,5 +1,4 @@
 import streamlit as st
-import matplotlib.pyplot as plt
 from utils import getListofAllIDs, get_historical_data
 from datetime import datetime, timedelta
 import pandas as pd
