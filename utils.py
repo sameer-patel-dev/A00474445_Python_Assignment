@@ -56,9 +56,9 @@ def get_historical_data(coin_id, start_date, end_date, currency="cad"):
 
 
 def load_or_train_model():
-    model_path = Path("mnist_model.h5")
+    model_path = Path("mnist_model.keras")
 
-    if os.path.exists(model_path):
+    if model_path.exists():
         print("Loading model...")
         return tf.keras.models.load_model(model_path)
     
